@@ -269,57 +269,6 @@ box-shadow:
 0 0 28px rgba(255,160,210,1);
 }
 
-/* ===== MOBILE OPTIMIZATION ===== */
-@media (max-width: 768px){
-
-  body{overflow:hidden}
-
-  .header{
-    top:10px;left:12px;right:12px;
-  }
-  .header img{width:40px;height:40px}
-  .header .school{font-size:14px}
-  .header .slogan{font-size:11px}
-
-  #menu h1{font-size:34px !important;text-align:center}
-  #menu .subtitle{font-size:15px;text-align:center}
-
-  .card{
-    padding:22px 10px;
-    font-size:16px;
-    border-radius:18px;
-  }
-
-  .content-box{
-    padding:18px;
-    border-radius:22px;
-  }
-
-  .text h2{font-size:22px}
-  .text ul{font-size:15px}
-
-  .back-btn{
-    top:70px;left:12px;
-    padding:8px 14px;
-    font-size:13px;
-  }
-
-  .video-btn{
-    font-size:13px;
-    padding:10px 16px;
-  }
-
-  .fullscreen-btn{
-    right:16px;bottom:18px;
-    padding:10px 16px;
-    font-size:13px;
-  }
-}
-
-/* chặn double tap zoom trên mobile */
-*{
-  touch-action: manipulation;
-}
 
 </style>
 </head>
@@ -465,11 +414,8 @@ menu.classList.add("active");
 closeVideo();
 }
 function goFullscreen(){
-  const el = document.documentElement;
-  if(el.requestFullscreen) el.requestFullscreen();
-  else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen(); // iOS Safari
+if(!document.fullscreenElement) document.documentElement.requestFullscreen();
 }
-
 
 /* slideshow */
 document.querySelectorAll(".slideshow").forEach(show=>{
@@ -509,46 +455,6 @@ function closeVideo(){
   video.pause();
   video.src = "";
   modal.style.display = "none";
-}
-
-/* ===== SWIPE FOR MOBILE ===== */
-const sections = ["menu","NeNep","hocTap","thanhTich","phongTrao"];
-let currentIndex = 0;
-
-function showByIndex(i){
-  if(i<0 || i>=sections.length) return;
-  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-  document.getElementById(sections[i]).classList.add("active");
-  currentIndex = i;
-}
-
-function openSection(id){
-  showByIndex(sections.indexOf(id));
-}
-
-function backMenu(){
-  showByIndex(0);
-  closeVideo();
-}
-
-/* touch detect */
-let startX=0,endX=0;
-
-document.addEventListener("touchstart",e=>{
-  startX = e.changedTouches[0].screenX;
-});
-
-document.addEventListener("touchend",e=>{
-  endX = e.changedTouches[0].screenX;
-  handleSwipe();
-});
-
-function handleSwipe(){
-  let diff = startX - endX;
-  if(Math.abs(diff)<60) return;
-
-  if(diff>0) showByIndex(currentIndex+1); // swipe left
-  else showByIndex(currentIndex-1);        // swipe right
 }
 
 </script>
